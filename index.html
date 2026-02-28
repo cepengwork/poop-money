@@ -78,11 +78,12 @@ input[type="number"]::placeholder{color:var(--text-muted)}
 .bar-track{height:8px;background:var(--surface);border-radius:4px;overflow:hidden}
 .bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .6s ease}
 .fun-message{margin-top:16px;padding:12px 16px;background:rgba(107,203,119,.1);border:1px solid rgba(107,203,119,.3);border-radius:8px;font-size:13px;color:var(--green);text-align:center;font-weight:700;letter-spacing:.5px}
-.achievements-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
-.achievement{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.achievements-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:600px){.achievements-grid{grid-template-columns:repeat(4,1fr)}}
+.achievement{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
 .achievement.unlocked{border-color:var(--accent);background:rgba(245,166,35,.08);box-shadow:0 0 16px rgba(245,166,35,.12)}
 .achievement.locked{cursor:default}
-.achievement-icon{font-size:30px;line-height:1;margin-bottom:8px;display:block}
+.achievement-icon{font-size:26px;line-height:1;margin-bottom:6px;display:block}
 .achievement.locked .achievement-icon{filter:brightness(0) opacity(0.45)}
 .achievement-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3}
 .achievement.unlocked .achievement-name{color:var(--accent)}
@@ -132,12 +133,12 @@ input[type="number"]::placeholder{color:var(--text-muted)}
       <div class="input-row">
         <div class="input-wrap">
           <label>時薪（新台幣）</label>
-          <input type="number" id="hourly-rate-pt" value="196" oninput="updateSummary()">
+          <input type="number" id="hourly-rate-pt" value="196" oninput="updateSummary();saveToStorage()">
           <div class="input-hint">2026 年最低時薪為 196 元</div>
         </div>
         <div class="input-wrap">
           <label>當月總工時（小時）</label>
-          <input type="number" id="total-hours-pt" placeholder="例：80" oninput="updateSummary()">
+          <input type="number" id="total-hours-pt" placeholder="例：80" oninput="updateSummary();saveToStorage()">
         </div>
       </div>
     </div>
@@ -201,30 +202,61 @@ input[type="number"]::placeholder{color:var(--text-muted)}
 <script>
 let mode='fulltime',currentYear,currentMonth,poopData={},selectedDate=null,unlockedAchievements=new Set(),newlyUnlocked=new Set();
 const now=new Date();currentYear=now.getFullYear();currentMonth=now.getMonth();
+
+// ── localStorage ──────────────────────────────
+const LS_DATA='dajcai_poop';
+const LS_SETTINGS='dajcai_settings';
+
+function saveToStorage(){
+  try{
+    localStorage.setItem(LS_DATA,JSON.stringify(poopData));
+    localStorage.setItem(LS_SETTINGS,JSON.stringify({
+      mode,
+      salary:document.getElementById('monthly-salary').value,
+      workDays:document.getElementById('work-days').value,
+      workHrs:document.getElementById('work-hours-per-day').value,
+      hourlyPt:document.getElementById('hourly-rate-pt').value,
+      totalHrsPt:document.getElementById('total-hours-pt').value,
+    }));
+  }catch(e){}
+}
+
+function loadFromStorage(){
+  try{
+    const d=localStorage.getItem(LS_DATA);
+    if(d) poopData=JSON.parse(d);
+    const s=localStorage.getItem(LS_SETTINGS);
+    if(s){
+      const p=JSON.parse(s);
+      if(p.salary) document.getElementById('monthly-salary').value=p.salary;
+      if(p.workDays) document.getElementById('work-days').value=p.workDays;
+      if(p.workHrs) document.getElementById('work-hours-per-day').value=p.workHrs;
+      if(p.hourlyPt) document.getElementById('hourly-rate-pt').value=p.hourlyPt;
+      if(p.totalHrsPt) document.getElementById('total-hours-pt').value=p.totalHrsPt;
+      if(p.mode) setMode(p.mode);
+    }
+  }catch(e){}
+}
 const WD=['日','一','二','三','四','五','六'];
 const MN=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
 const ACH=[
   {id:'first',icon:'🌱',name:'初生之犢',desc:'第一次記錄如廁',check:(m,d,mx,e)=>d>=1},
-  {id:'day5',icon:'⏱️',name:'小試身手',desc:'單日如廁 5 分鐘以上',check:(m,d,mx,e)=>mx>=5},
-  {id:'day10',icon:'🚽',name:'廁所常駐',desc:'單日如廁 10 分鐘以上',check:(m,d,mx,e)=>mx>=10},
-  {id:'min30',icon:'✨',name:'小有成就',desc:'累積如廁 30 分鐘',check:(m,d,mx,e)=>m>=30},
+  {id:'day15',icon:'🚽',name:'廁所常駐',desc:'單日如廁 15 分鐘以上',check:(m,d,mx,e)=>mx>=15},
+  {id:'day30',icon:'🤢',name:'腸胃在抗議',desc:'單日如廁 30 分鐘以上',check:(m,d,mx,e)=>mx>=30},
   {id:'hr1',icon:'💪',name:'廁所辦公室',desc:'累積如廁 1 小時',check:(m,d,mx,e)=>m>=60},
-  {id:'hr2',icon:'🔥',name:'帶薪達人',desc:'累積如廁 2 小時',check:(m,d,mx,e)=>m>=120},
-  {id:'hr5',icon:'👑',name:'腸胃老闆',desc:'累積如廁 5 小時',check:(m,d,mx,e)=>m>=300},
-  {id:'hr10',icon:'🏆',name:'拉屎傳說',desc:'累積如廁 10 小時',check:(m,d,mx,e)=>m>=600},
-  {id:'days7',icon:'📅',name:'連續記錄達人',desc:'記錄滿 7 天',check:(m,d,mx,e)=>d>=7},
-  {id:'days20',icon:'🗓️',name:'全勤廁所員',desc:'記錄滿 20 天',check:(m,d,mx,e)=>d>=20},
+  {id:'hr8',icon:'😴',name:'全職拉屎員',desc:'累積如廁 8 小時',check:(m,d,mx,e)=>m>=480},
+  {id:'hr40',icon:'🏆',name:'拉屎傳說',desc:'累積如廁 40 小時',check:(m,d,mx,e)=>m>=2400},
   {id:'earn100',icon:'🐓',name:'財神爺特選',desc:'本月如廁賺超過 100 元',check:(m,d,mx,e)=>e>=100},
-  {id:'earn500',icon:'💩',name:'帶薪拉屎之神',desc:'本月如廁賺超過 500 元',check:(m,d,mx,e)=>e>=500},
+  {id:'earn1000',icon:'💩',name:'帶薪拉屎之神',desc:'本月如廁賺超過 1000 元',check:(m,d,mx,e)=>e>=1000},
 ];
 
-function setMode(m){mode=m;document.querySelectorAll('.toggle-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='fulltime')||(i===1&&m==='parttime')));document.getElementById('fulltime-inputs').style.display=m==='fulltime'?'block':'none';document.getElementById('parttime-inputs').style.display=m==='parttime'?'block':'none';updateSummary()}
+function setMode(m){mode=m;document.querySelectorAll('.toggle-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='fulltime')||(i===1&&m==='parttime')));document.getElementById('fulltime-inputs').style.display=m==='fulltime'?'block':'none';document.getElementById('parttime-inputs').style.display=m==='parttime'?'block':'none';updateSummary();saveToStorage()}
 
 function getHourlyRate(){if(mode==='fulltime'){const s=parseFloat(document.getElementById('monthly-salary').value)||0,d=parseFloat(document.getElementById('work-days').value)||0,h=parseFloat(document.getElementById('work-hours-per-day').value)||8;return(s>0&&d>0&&h>0)?s/(d*h):0}return parseFloat(document.getElementById('hourly-rate-pt').value)||0}
 
 function getTotalWorkMinutes(){if(mode==='fulltime'){const d=parseFloat(document.getElementById('work-days').value)||0,h=parseFloat(document.getElementById('work-hours-per-day').value)||8;return d*h*60}return(parseFloat(document.getElementById('total-hours-pt').value)||0)*60}
 
-function calcHourly(){const r=getHourlyRate();const el=document.getElementById('hourly-display');if(r>0){el.style.display='block';document.getElementById('hourly-rate-display').textContent=r.toFixed(1)}else el.style.display='none';updateSummary()}
+function calcHourly(){const r=getHourlyRate();const el=document.getElementById('hourly-display');if(r>0){el.style.display='block';document.getElementById('hourly-rate-display').textContent=r.toFixed(1)}else el.style.display='none';updateSummary();saveToStorage()}
 
 function autoFillWorkdays(){const dim=new Date(currentYear,currentMonth+1,0).getDate();let c=0;for(let d=1;d<=dim;d++){const dw=new Date(currentYear,currentMonth,d).getDay();if(dw!==0&&dw!==6)c++}document.getElementById('work-days').value=c;calcHourly();showToast('📅 '+MN[currentMonth]+'共有 '+c+' 個工作天')}
 
@@ -276,9 +308,9 @@ function updateModalEarned(v){const m=parseFloat(v)||0;const r=getHourlyRate();c
 function closeModal(){document.getElementById('modal').classList.remove('open');selectedDate=null}
 function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal()}
 
-function clearDay(){if(selectedDate)delete poopData[selectedDate];closeModal();renderCalendar();updateSummary();showToast('🗑️ 已清除紀錄')}
+function clearDay(){if(selectedDate)delete poopData[selectedDate];closeModal();renderCalendar();updateSummary();saveToStorage();showToast('🗑️ 已清除紀錄')}
 
-function saveDay(){const m=parseFloat(document.getElementById('modal-mins-input').value)||0;if(selectedDate){if(m>0)poopData[selectedDate]=m;else delete poopData[selectedDate]}closeModal();renderCalendar();updateSummary()}
+function saveDay(){const m=parseFloat(document.getElementById('modal-mins-input').value)||0;if(selectedDate){if(m>0)poopData[selectedDate]=m;else delete poopData[selectedDate]}closeModal();renderCalendar();updateSummary();saveToStorage()}
 
 document.getElementById('modal-mins-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveDay();if(e.key==='Escape')closeModal()});
 
@@ -321,7 +353,7 @@ function renderAchievements(){
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800)}
 
-renderCalendar();renderAchievements();updateSummary();
+renderCalendar();renderAchievements();loadFromStorage();renderCalendar();updateSummary();
 </script>
 </body>
 </html>
