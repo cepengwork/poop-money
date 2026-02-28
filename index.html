@@ -256,7 +256,14 @@ function getHourlyRate(){if(mode==='fulltime'){const s=parseFloat(document.getEl
 
 function getTotalWorkMinutes(){if(mode==='fulltime'){const d=parseFloat(document.getElementById('work-days').value)||0,h=parseFloat(document.getElementById('work-hours-per-day').value)||8;return d*h*60}return(parseFloat(document.getElementById('total-hours-pt').value)||0)*60}
 
-function calcHourly(){const r=getHourlyRate();const el=document.getElementById('hourly-display');if(r>0){el.style.display='block';document.getElementById('hourly-rate-display').textContent=r.toFixed(1)}else el.style.display='none';updateSummary();saveToStorage()}
+function updateHourlyDisplay(){
+  const r=getHourlyRate();
+  const el=document.getElementById('hourly-display');
+  if(r>0){el.style.display='block';document.getElementById('hourly-rate-display').textContent=r.toFixed(1)}
+  else el.style.display='none';
+}
+
+function calcHourly(){updateHourlyDisplay();updateSummary();saveToStorage()}
 
 function autoFillWorkdays(){const dim=new Date(currentYear,currentMonth+1,0).getDate();let c=0;for(let d=1;d<=dim;d++){const dw=new Date(currentYear,currentMonth,d).getDay();if(dw!==0&&dw!==6)c++}document.getElementById('work-days').value=c;calcHourly();showToast('📅 '+MN[currentMonth]+'共有 '+c+' 個工作天')}
 
@@ -329,8 +336,8 @@ function updateSummary(){
   const msgs=[{min:0,msg:'💡 開始記錄你的帶薪如廁時光吧！'},{min:1,msg:'🌱 人生第一泡，前途無量！'},{min:30,msg:'✨ 還不錯嘛，繼續加油！'},{min:60,msg:'💪 一小時！廁所就是你的辦公室！'},{min:120,msg:'🔥 兩小時！你是真正的帶薪拉屎達人！'},{min:300,msg:'👑 五小時！老闆在為你的腸胃付薪水！'},{min:600,msg:'🏆 你是傳說！廁所應該給你發年終！'}];
   let msg=msgs[0].msg;for(const m of msgs){if(totalMins>=m.min)msg=m.msg}
   document.getElementById('fun-message').textContent=msg;
+  updateHourlyDisplay();
   checkAchievements(totalMins,recordedDays,maxDay,earned);
-  calcHourly();
 }
 
 function checkAchievements(tm,rd,mx,e){
