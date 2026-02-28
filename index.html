@@ -6,449 +6,108 @@
 <title>大號財神爺 💩</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #1a1208;
-    --surface: #2a1e0e;
-    --card: #362912;
-    --accent: #f5a623;
-    --accent2: #e8732a;
-    --text: #f5e6c8;
-    --text-muted: #a89070;
-    --green: #6bcb77;
-    --border: #5a3e20;
-    --hover: #4a3318;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans TC', sans-serif;
-    min-height: 100vh;
-    padding: 0 0 60px;
-    background-image: 
-      radial-gradient(ellipse at 20% 0%, rgba(245,166,35,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 100%, rgba(232,115,42,0.06) 0%, transparent 50%);
-  }
-
-  .header {
-    text-align: center;
-    padding: 40px 20px 30px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '💩';
-    font-size: 200px;
-    position: absolute;
-    top: -40px; left: -40px;
-    opacity: 0.04;
-    pointer-events: none;
-  }
-  .header::after {
-    content: '💩';
-    font-size: 150px;
-    position: absolute;
-    bottom: -30px; right: -10px;
-    opacity: 0.04;
-    pointer-events: none;
-  }
-
-  .title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(36px, 8vw, 72px);
-    letter-spacing: 4px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .subtitle {
-    color: var(--text-muted);
-    font-size: 14px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    position: relative;
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* Toggle */
-  .toggle-group {
-    display: flex;
-    background: var(--surface);
-    border-radius: 10px;
-    padding: 4px;
-    gap: 4px;
-  }
-  .toggle-btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--text-muted);
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .toggle-btn.active {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #1a1208;
-  }
-
-  /* Inputs */
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 16px;
-  }
-  .input-row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .input-wrap {
-    flex: 1;
-    min-width: 180px;
-  }
-  label {
-    display: block;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  input[type="number"] {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    color: var(--text);
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  input[type="number"]:focus {
-    border-color: var(--accent);
-  }
-  input[type="number"]::placeholder { color: var(--text-muted); }
-
-  .hourly-display {
-    margin-top: 12px;
-    padding: 12px 16px;
-    background: var(--surface);
-    border-radius: 8px;
-    border-left: 3px solid var(--accent);
-    font-size: 14px;
-    color: var(--text-muted);
-    display: none;
-  }
-  .hourly-display span {
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 18px;
-  }
-
-  /* Month nav */
-  .month-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .month-nav button {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-  .month-nav button:hover { background: var(--hover); border-color: var(--accent); }
-  .month-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 3px;
-    color: var(--text);
-  }
-
-  /* Calendar */
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-  }
-  .cal-header {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    padding: 6px 0;
-    text-transform: uppercase;
-  }
-  .cal-day {
-    aspect-ratio: 1;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    background: var(--surface);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
-    padding: 4px;
-    min-height: 52px;
-  }
-  .cal-day:hover { border-color: var(--accent); background: var(--hover); }
-  .cal-day.empty { background: transparent; cursor: default; }
-  .cal-day.has-data { border-color: var(--accent2); background: rgba(245,166,35,0.08); }
-  .cal-day.today { border-color: var(--green); }
-  .cal-day-num {
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .cal-day-mins {
-    font-size: 10px;
-    color: var(--accent);
-    font-weight: 700;
-    margin-top: 3px;
-    line-height: 1;
-  }
-  .cal-day-emoji {
-    font-size: 12px;
-    line-height: 1;
-  }
-  .cal-day.weekend .cal-day-num { color: var(--accent2); }
-
-  /* Modal */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 100;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    width: 300px;
-    transform: scale(0.9);
-    transition: transform 0.2s;
-  }
-  .modal-overlay.open .modal { transform: scale(1); }
-  .modal-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 2px;
-    margin-bottom: 6px;
-  }
-  .modal-date {
-    color: var(--text-muted);
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-  .modal-input-wrap {
-    position: relative;
-  }
-  .modal-input-wrap input {
-    padding-right: 50px;
-  }
-  .modal-unit {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 13px;
-    pointer-events: none;
-  }
-  .modal-btns {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  .btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #1a1208;
-  }
-  .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
-  .btn-ghost {
-    background: var(--surface);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--text); }
-
-  /* Summary */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-  }
-  .stat-box {
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid var(--border);
-    text-align: center;
-  }
-  .stat-label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  .stat-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 2px;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .stat-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-
-  .productivity-bar {
-    margin-top: 20px;
-  }
-  .prod-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .bar-track {
-    height: 8px;
-    background: var(--surface);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    width: 0%;
-    transition: width 0.6s ease;
-  }
-
-  .fun-message {
-    margin-top: 16px;
-    padding: 12px 16px;
-    background: rgba(107,203,119,0.1);
-    border: 1px solid rgba(107,203,119,0.3);
-    border-radius: 8px;
-    font-size: 13px;
-    color: var(--green);
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  /* Footer */
-  .footer-note {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 12px;
-    letter-spacing: 1px;
-    margin-top: 10px;
-  }
-
-  @media (max-width: 480px) {
-    .cal-day { min-height: 44px; }
-    .cal-day-num { font-size: 12px; }
-    .cal-day-mins { font-size: 9px; }
-  }
+:root{--bg:#1a1208;--surface:#2a1e0e;--card:#362912;--accent:#f5a623;--accent2:#e8732a;--text:#f5e6c8;--text-muted:#a89070;--green:#6bcb77;--border:#5a3e20;--hover:#4a3318;--red:#e05c5c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;min-height:100vh;padding:0 0 60px;background-image:radial-gradient(ellipse at 20% 0%,rgba(245,166,35,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(232,115,42,.06) 0%,transparent 50%)}
+.header{text-align:center;padding:40px 20px 30px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.header::before{content:'💩';font-size:200px;position:absolute;top:-40px;left:-40px;opacity:.04;pointer-events:none}
+.header::after{content:'💩';font-size:150px;position:absolute;bottom:-30px;right:-10px;opacity:.04;pointer-events:none}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,72px);letter-spacing:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:8px}
+.subtitle{color:var(--text-muted);font-size:14px;letter-spacing:2px;text-transform:uppercase}
+.container{max-width:900px;margin:0 auto;padding:30px 20px;display:flex;flex-direction:column;gap:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative}
+.card-title{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.toggle-group{display:flex;background:var(--surface);border-radius:10px;padding:4px;gap:4px}
+.toggle-btn{flex:1;padding:12px;border:none;border-radius:8px;background:transparent;color:var(--text-muted);font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+.toggle-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a1208}
+.input-group{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.input-row{display:flex;gap:12px;flex-wrap:wrap}
+.input-wrap{flex:1;min-width:180px}
+label{display:block;font-size:12px;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;font-weight:700;text-transform:uppercase}
+input[type="number"]{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:16px;outline:none;transition:border-color .2s}
+input[type="number"]:focus{border-color:var(--accent)}
+input[type="number"]::placeholder{color:var(--text-muted)}
+.input-hint{font-size:11px;color:var(--text-muted);margin-top:5px}
+.input-hint a{color:var(--accent);cursor:pointer;text-decoration:underline}
+.hourly-display{margin-top:12px;padding:12px 16px;background:var(--surface);border-radius:8px;border-left:3px solid var(--accent);font-size:14px;color:var(--text-muted);display:none}
+.hourly-display span{color:var(--accent);font-weight:700;font-size:18px}
+.salary-warning{display:none;margin-top:12px;padding:10px 14px;background:rgba(224,92,92,.12);border:1px solid rgba(224,92,92,.35);border-radius:8px;font-size:13px;color:var(--red);font-weight:700}
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.month-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.month-nav button:hover{background:var(--hover);border-color:var(--accent)}
+.month-label{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--text)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-header{text-align:center;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--text-muted);padding:6px 0;text-transform:uppercase}
+.cal-header.wh{color:var(--accent2)}
+.cal-day{aspect-ratio:1;border-radius:10px;border:1px solid transparent;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;position:relative;padding:4px;min-height:52px}
+.cal-day:hover{border-color:var(--accent);background:var(--hover)}
+.cal-day.empty{background:transparent;cursor:default;border:none}
+.cal-day.has-data{border-color:var(--accent2);background:rgba(245,166,35,.08)}
+.cal-day.today{border-color:var(--green)}
+.cal-day.we{background:rgba(232,115,42,.07)}
+.cal-day.we:hover{background:rgba(232,115,42,.15)}
+.cal-day-num{font-size:13px;font-weight:700;line-height:1}
+.cal-day-mins{font-size:10px;color:var(--accent);font-weight:700;margin-top:3px;line-height:1}
+.cal-day-emoji{font-size:12px;line-height:1}
+.cal-day.we .cal-day-num{color:var(--accent2)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;width:320px;transform:scale(.9);transition:transform .2s}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:6px}
+.modal-date{color:var(--text-muted);font-size:13px;margin-bottom:20px}
+.modal-input-wrap{position:relative}
+.modal-input-wrap input{padding-right:50px}
+.modal-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:13px;pointer-events:none}
+.modal-enter-hint{font-size:11px;color:var(--text-muted);margin-top:6px;text-align:right}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.btn{flex:1;padding:12px;border:none;border-radius:10px;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a1208}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{background:var(--surface);color:var(--text-muted);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+.btn-danger{background:rgba(224,92,92,.15);color:var(--red);border:1px solid rgba(224,92,92,.3);flex:0 0 auto;padding:12px 14px}
+.btn-danger:hover{background:rgba(224,92,92,.28)}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.stat-box{background:var(--surface);border-radius:12px;padding:20px;border:1px solid var(--border);text-align:center}
+.stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);font-weight:700;margin-bottom:10px}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-sub{font-size:12px;color:var(--text-muted);margin-top:4px}
+.productivity-bar{margin-top:20px}
+.prod-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.bar-track{height:8px;background:var(--surface);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .6s ease}
+.fun-message{margin-top:16px;padding:12px 16px;background:rgba(107,203,119,.1);border:1px solid rgba(107,203,119,.3);border-radius:8px;font-size:13px;color:var(--green);text-align:center;font-weight:700;letter-spacing:.5px}
+.achievements-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
+.achievement{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.achievement.unlocked{border-color:var(--accent);background:rgba(245,166,35,.08);box-shadow:0 0 16px rgba(245,166,35,.12)}
+.achievement.locked{cursor:default}
+.achievement-icon{font-size:30px;line-height:1;margin-bottom:8px;display:block}
+.achievement.locked .achievement-icon{filter:brightness(0) opacity(0.45)}
+.achievement-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3}
+.achievement.unlocked .achievement-name{color:var(--accent)}
+.achievement.locked .achievement-name{color:transparent;background:rgba(255,255,255,0.12);border-radius:4px;user-select:none}
+.achievement-desc{font-size:10px;color:var(--text-muted);line-height:1.4}
+.achievement.locked .achievement-desc{color:transparent;background:rgba(255,255,255,0.08);border-radius:3px;user-select:none}
+.badge-new{position:absolute;top:6px;right:6px;background:var(--green);color:#1a1208;font-size:9px;font-weight:900;padding:2px 5px;border-radius:4px;letter-spacing:.5px;animation:popIn .4s ease}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#1a1208;font-weight:700;font-size:14px;padding:12px 24px;border-radius:30px;z-index:999;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.footer-note{text-align:center;color:var(--text-muted);font-size:12px;letter-spacing:1px;margin-top:10px}
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="title">大號財神爺</div>
   <div class="subtitle">💩 &nbsp;把如廁時間變成財富 &nbsp;💩</div>
 </div>
-
 <div class="container">
-
-  <!-- 薪水設定 -->
   <div class="card">
     <div class="card-title">💼 薪水設定</div>
     <div class="toggle-group">
       <button class="toggle-btn active" onclick="setMode('fulltime')">🏢 全職</button>
       <button class="toggle-btn" onclick="setMode('parttime')">⏰ 兼職</button>
     </div>
-
     <div id="fulltime-inputs" class="input-group">
       <div class="input-row">
         <div class="input-wrap">
@@ -458,24 +117,23 @@
         <div class="input-wrap">
           <label>當月工作天數</label>
           <input type="number" id="work-days" placeholder="例：22" oninput="calcHourly()">
+          <div class="input-hint">💡 <a onclick="autoFillWorkdays()">自動排除週六日</a></div>
         </div>
       </div>
       <div class="input-row">
         <div class="input-wrap">
           <label>每天工作時數</label>
-          <input type="number" id="work-hours-per-day" placeholder="例：8" value="8" oninput="calcHourly()">
+          <input type="number" id="work-hours-per-day" value="8" oninput="calcHourly()">
         </div>
       </div>
-      <div class="hourly-display" id="hourly-display">
-        換算時薪：<span id="hourly-rate-display">--</span> 元／小時
-      </div>
+      <div class="hourly-display" id="hourly-display">換算時薪：<span id="hourly-rate-display">--</span> 元／小時</div>
     </div>
-
     <div id="parttime-inputs" class="input-group" style="display:none">
       <div class="input-row">
         <div class="input-wrap">
           <label>時薪（新台幣）</label>
-          <input type="number" id="hourly-rate-pt" placeholder="例：180" oninput="updateSummary()">
+          <input type="number" id="hourly-rate-pt" value="196" oninput="updateSummary()">
+          <div class="input-hint">2026 最低時薪為 196 元</div>
         </div>
         <div class="input-wrap">
           <label>當月總工時（小時）</label>
@@ -483,9 +141,9 @@
         </div>
       </div>
     </div>
+    <div class="salary-warning" id="salary-warning">⚠️ 請先填寫薪水設定，才能計算每次如廁的薪水喔！</div>
   </div>
 
-  <!-- 日曆 -->
   <div class="card">
     <div class="card-title">📅 如廁紀錄</div>
     <div class="month-nav">
@@ -494,56 +152,32 @@
       <button onclick="changeMonth(1)">›</button>
     </div>
     <div class="calendar-grid" id="calendar"></div>
-    <div style="margin-top:12px; font-size:12px; color:var(--text-muted); text-align:center;">
-      點擊日期可記錄如廁分鐘數 💩
-    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center">點擊日期記錄如廁時間 &nbsp;·&nbsp; 橘色背景為週末 &nbsp;·&nbsp; 按 Enter 快速儲存</div>
   </div>
 
-  <!-- 總結 -->
   <div class="card">
     <div class="card-title">📊 本月成就</div>
     <div class="summary-grid">
-      <div class="stat-box">
-        <div class="stat-label">🕐 累積如廁時間</div>
-        <div class="stat-value" id="total-mins-display">0</div>
-        <div class="stat-sub">分鐘</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">⏱️ 換算成小時</div>
-        <div class="stat-value" id="total-hours-display">0.0</div>
-        <div class="stat-sub">小時</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">💰 帶薪拉屎賺到</div>
-        <div class="stat-value" id="total-earned-display">0</div>
-        <div class="stat-sub">新台幣</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">📅 已記錄天數</div>
-        <div class="stat-value" id="recorded-days-display">0</div>
-        <div class="stat-sub">天</div>
-      </div>
+      <div class="stat-box"><div class="stat-label">🕐 累積如廁時間</div><div class="stat-value" id="total-mins-display">0</div><div class="stat-sub">分鐘</div></div>
+      <div class="stat-box"><div class="stat-label">⏱️ 換算成小時</div><div class="stat-value" id="total-hours-display">0.0</div><div class="stat-sub">小時</div></div>
+      <div class="stat-box"><div class="stat-label">💰 帶薪拉屎賺到</div><div class="stat-value" id="total-earned-display">0</div><div class="stat-sub">新台幣</div></div>
+      <div class="stat-box"><div class="stat-label">📅 已記錄天數</div><div class="stat-value" id="recorded-days-display">0</div><div class="stat-sub">天</div></div>
     </div>
-
     <div class="productivity-bar">
-      <div class="prod-label">
-        <span>如廁時間佔工時比例</span>
-        <span id="pct-label">0%</span>
-      </div>
-      <div class="bar-track">
-        <div class="bar-fill" id="bar-fill"></div>
-      </div>
+      <div class="prod-label"><span>如廁時間佔工時比例</span><span id="pct-label">0%</span></div>
+      <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
     </div>
-
-    <div class="fun-message" id="fun-message">
-      💡 開始記錄你的帶薪如廁時光吧！
-    </div>
+    <div class="fun-message" id="fun-message">💡 開始記錄你的帶薪如廁時光吧！</div>
+    <div class="footer-note" style="margin-top:16px">💩 科學研究證實：健康人每天如廁 5–15 分鐘，拿薪水是應得的 💩</div>
   </div>
 
-  <div class="footer-note">💩 科學研究證實：健康人每天如廁 5–15 分鐘，拿薪水是應得的 💩</div>
+  <div class="card">
+    <div class="card-title">🏅 成就徽章</div>
+    <div class="achievements-grid" id="achievements-grid"></div>
+  </div>
+
 </div>
 
-<!-- Modal -->
 <div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
   <div class="modal">
     <div class="modal-title">💩 記錄如廁時間</div>
@@ -553,232 +187,141 @@
       <input type="number" id="modal-mins-input" placeholder="0" min="0" max="480">
       <span class="modal-unit">分鐘</span>
     </div>
-    <div id="modal-earned" style="margin-top:10px; font-size:13px; color:var(--accent); display:none;"></div>
+    <div class="modal-enter-hint">按 Enter 快速儲存 ↵</div>
+    <div id="modal-earned" style="margin-top:10px;font-size:13px;color:var(--accent);display:none"></div>
     <div class="modal-btns">
       <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+      <button class="btn btn-danger" id="btn-clear" onclick="clearDay()" style="display:none">🗑️ 清除</button>
       <button class="btn btn-primary" onclick="saveDay()">儲存 💾</button>
     </div>
   </div>
 </div>
+<div class="toast" id="toast"></div>
 
 <script>
-  let mode = 'fulltime';
-  let currentYear, currentMonth;
-  let poopData = {}; // key: "YYYY-MM-DD"
-  let selectedDate = null;
+let mode='fulltime',currentYear,currentMonth,poopData={},selectedDate=null,unlockedAchievements=new Set(),newlyUnlocked=new Set();
+const now=new Date();currentYear=now.getFullYear();currentMonth=now.getMonth();
+const WD=['日','一','二','三','四','五','六'];
+const MN=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+const ACH=[
+  {id:'first',icon:'🌱',name:'初生之犢',desc:'第一次記錄如廁',check:(m,d,mx,e)=>d>=1},
+  {id:'day5',icon:'⏱️',name:'小試身手',desc:'單日如廁 5 分鐘以上',check:(m,d,mx,e)=>mx>=5},
+  {id:'day10',icon:'🚽',name:'廁所常駐',desc:'單日如廁 10 分鐘以上',check:(m,d,mx,e)=>mx>=10},
+  {id:'min30',icon:'✨',name:'小有成就',desc:'累積如廁 30 分鐘',check:(m,d,mx,e)=>m>=30},
+  {id:'hr1',icon:'💪',name:'廁所辦公室',desc:'累積如廁 1 小時',check:(m,d,mx,e)=>m>=60},
+  {id:'hr2',icon:'🔥',name:'帶薪達人',desc:'累積如廁 2 小時',check:(m,d,mx,e)=>m>=120},
+  {id:'hr5',icon:'👑',name:'腸胃老闆',desc:'累積如廁 5 小時',check:(m,d,mx,e)=>m>=300},
+  {id:'hr10',icon:'🏆',name:'拉屎傳說',desc:'累積如廁 10 小時',check:(m,d,mx,e)=>m>=600},
+  {id:'days7',icon:'📅',name:'連續記錄達人',desc:'記錄滿 7 天',check:(m,d,mx,e)=>d>=7},
+  {id:'days20',icon:'🗓️',name:'全勤廁所員',desc:'記錄滿 20 天',check:(m,d,mx,e)=>d>=20},
+  {id:'earn100',icon:'🐓',name:'財神爺特選',desc:'本月如廁賺超過 100 元',check:(m,d,mx,e)=>e>=100},
+  {id:'earn500',icon:'💩',name:'帶薪拉屎之神',desc:'本月如廁賺超過 500 元',check:(m,d,mx,e)=>e>=500},
+];
 
-  const now = new Date();
-  currentYear = now.getFullYear();
-  currentMonth = now.getMonth(); // 0-indexed
+function setMode(m){mode=m;document.querySelectorAll('.toggle-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='fulltime')||(i===1&&m==='parttime')));document.getElementById('fulltime-inputs').style.display=m==='fulltime'?'block':'none';document.getElementById('parttime-inputs').style.display=m==='parttime'?'block':'none';updateSummary()}
 
-  const WEEKDAYS = ['日','一','二','三','四','五','六'];
-  const MONTH_NAMES = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+function getHourlyRate(){if(mode==='fulltime'){const s=parseFloat(document.getElementById('monthly-salary').value)||0,d=parseFloat(document.getElementById('work-days').value)||0,h=parseFloat(document.getElementById('work-hours-per-day').value)||8;return(s>0&&d>0&&h>0)?s/(d*h):0}return parseFloat(document.getElementById('hourly-rate-pt').value)||0}
 
-  function setMode(m) {
-    mode = m;
-    document.querySelectorAll('.toggle-btn').forEach((b,i) => {
-      b.classList.toggle('active', (i===0 && m==='fulltime') || (i===1 && m==='parttime'));
-    });
-    document.getElementById('fulltime-inputs').style.display = m==='fulltime' ? 'block' : 'none';
-    document.getElementById('parttime-inputs').style.display = m==='parttime' ? 'block' : 'none';
-    updateSummary();
+function getTotalWorkMinutes(){if(mode==='fulltime'){const d=parseFloat(document.getElementById('work-days').value)||0,h=parseFloat(document.getElementById('work-hours-per-day').value)||8;return d*h*60}return(parseFloat(document.getElementById('total-hours-pt').value)||0)*60}
+
+function calcHourly(){const r=getHourlyRate();const el=document.getElementById('hourly-display');if(r>0){el.style.display='block';document.getElementById('hourly-rate-display').textContent=r.toFixed(1)}else el.style.display='none';updateSummary()}
+
+function autoFillWorkdays(){const dim=new Date(currentYear,currentMonth+1,0).getDate();let c=0;for(let d=1;d<=dim;d++){const dw=new Date(currentYear,currentMonth,d).getDay();if(dw!==0&&dw!==6)c++}document.getElementById('work-days').value=c;calcHourly();showToast('📅 '+MN[currentMonth]+'共有 '+c+' 個工作天')}
+
+function changeMonth(delta){currentMonth+=delta;if(currentMonth>11){currentMonth=0;currentYear++}if(currentMonth<0){currentMonth=11;currentYear--}renderCalendar();updateSummary()}
+
+function renderCalendar(){
+  document.getElementById('month-label').textContent=currentYear+' 年 '+MN[currentMonth];
+  const grid=document.getElementById('calendar');grid.innerHTML='';
+  WD.forEach((d,i)=>{const h=document.createElement('div');h.className='cal-header'+(i===0||i===6?' wh':'');h.textContent=d;grid.appendChild(h)});
+  const fd=new Date(currentYear,currentMonth,1).getDay();
+  const dim=new Date(currentYear,currentMonth+1,0).getDate();
+  const today=new Date();
+  for(let i=0;i<fd;i++){const e=document.createElement('div');e.className='cal-day empty';grid.appendChild(e)}
+  for(let d=1;d<=dim;d++){
+    const key=dk(currentYear,currentMonth,d);
+    const dow=new Date(currentYear,currentMonth,d).getDay();
+    const isToday=today.getFullYear()===currentYear&&today.getMonth()===currentMonth&&today.getDate()===d;
+    const isWE=dow===0||dow===6;
+    const hasData=poopData[key]>0;
+    const el=document.createElement('div');
+    el.className='cal-day'+(hasData?' has-data':'')+(isToday?' today':'')+(isWE?' we':'');
+    const nd=document.createElement('div');nd.className='cal-day-num';nd.textContent=d;el.appendChild(nd);
+    if(hasData){const em=document.createElement('div');em.className='cal-day-emoji';em.textContent='💩';el.appendChild(em);const md=document.createElement('div');md.className='cal-day-mins';md.textContent=poopData[key]+'分';el.appendChild(md)}
+    el.addEventListener('click',()=>openModal(currentYear,currentMonth,d));
+    grid.appendChild(el);
   }
+}
 
-  function getHourlyRate() {
-    if (mode === 'fulltime') {
-      const salary = parseFloat(document.getElementById('monthly-salary').value) || 0;
-      const days = parseFloat(document.getElementById('work-days').value) || 0;
-      const hrs = parseFloat(document.getElementById('work-hours-per-day').value) || 8;
-      if (salary > 0 && days > 0 && hrs > 0) return salary / (days * hrs);
-      return 0;
-    } else {
-      return parseFloat(document.getElementById('hourly-rate-pt').value) || 0;
-    }
-  }
+function dk(y,m,d){return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')}
 
-  function getTotalWorkMinutes() {
-    if (mode === 'fulltime') {
-      const days = parseFloat(document.getElementById('work-days').value) || 0;
-      const hrs = parseFloat(document.getElementById('work-hours-per-day').value) || 8;
-      return days * hrs * 60;
-    } else {
-      const hrs = parseFloat(document.getElementById('total-hours-pt').value) || 0;
-      return hrs * 60;
-    }
-  }
+function openModal(y,m,d){
+  const r=getHourlyRate();const w=document.getElementById('salary-warning');
+  if(r===0){w.style.display='block';w.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>w.style.display='none',3000);return}
+  w.style.display='none';
+  selectedDate=dk(y,m,d);
+  document.getElementById('modal-date-label').textContent=y+' 年 '+(m+1)+' 月 '+d+' 日（星期'+WD[new Date(y,m,d).getDay()]+'）';
+  const inp=document.getElementById('modal-mins-input');
+  const has=poopData[selectedDate]>0;
+  inp.value=has?poopData[selectedDate]:'';
+  document.getElementById('btn-clear').style.display=has?'flex':'none';
+  updateModalEarned(inp.value);
+  inp.oninput=()=>updateModalEarned(inp.value);
+  document.getElementById('modal').classList.add('open');
+  setTimeout(()=>inp.focus(),200);
+}
 
-  function calcHourly() {
-    const rate = getHourlyRate();
-    const el = document.getElementById('hourly-display');
-    const span = document.getElementById('hourly-rate-display');
-    if (rate > 0) {
-      el.style.display = 'block';
-      span.textContent = rate.toFixed(1);
-    } else {
-      el.style.display = 'none';
-    }
-    updateSummary();
-  }
+function updateModalEarned(v){const m=parseFloat(v)||0;const r=getHourlyRate();const el=document.getElementById('modal-earned');if(r>0&&m>0){el.style.display='block';el.textContent='💰 這 '+m+' 分鐘賺了你 '+(m/60*r).toFixed(1)+' 元！'}else el.style.display='none'}
 
-  function changeMonth(delta) {
-    currentMonth += delta;
-    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-    renderCalendar();
-  }
+function closeModal(){document.getElementById('modal').classList.remove('open');selectedDate=null}
+function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal()}
 
-  function renderCalendar() {
-    document.getElementById('month-label').textContent = `${currentYear} 年 ${MONTH_NAMES[currentMonth]}`;
-    const grid = document.getElementById('calendar');
-    grid.innerHTML = '';
+function clearDay(){if(selectedDate)delete poopData[selectedDate];closeModal();renderCalendar();updateSummary();showToast('🗑️ 已清除紀錄')}
 
-    // headers
-    WEEKDAYS.forEach(d => {
-      const h = document.createElement('div');
-      h.className = 'cal-header';
-      h.textContent = d;
-      grid.appendChild(h);
-    });
+function saveDay(){const m=parseFloat(document.getElementById('modal-mins-input').value)||0;if(selectedDate){if(m>0)poopData[selectedDate]=m;else delete poopData[selectedDate]}closeModal();renderCalendar();updateSummary()}
 
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
-    const today = new Date();
+document.getElementById('modal-mins-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveDay();if(e.key==='Escape')closeModal()});
 
-    for (let i = 0; i < firstDay; i++) {
-      const empty = document.createElement('div');
-      empty.className = 'cal-day empty';
-      grid.appendChild(empty);
-    }
+function updateSummary(){
+  const pre=currentYear+'-'+String(currentMonth+1).padStart(2,'0')+'-';
+  let totalMins=0,recordedDays=0,maxDay=0;
+  Object.keys(poopData).forEach(k=>{if(k.startsWith(pre)&&poopData[k]>0){totalMins+=poopData[k];recordedDays++;if(poopData[k]>maxDay)maxDay=poopData[k]}});
+  const r=getHourlyRate(),earned=totalMins/60*r,twm=getTotalWorkMinutes();
+  const pct=twm>0?Math.min(totalMins/twm*100,100):0;
+  document.getElementById('total-mins-display').textContent=totalMins;
+  document.getElementById('total-hours-display').textContent=(totalMins/60).toFixed(1);
+  document.getElementById('total-earned-display').textContent=earned>0?Math.round(earned):0;
+  document.getElementById('recorded-days-display').textContent=recordedDays;
+  document.getElementById('pct-label').textContent=pct.toFixed(1)+'%';
+  document.getElementById('bar-fill').style.width=pct+'%';
+  const msgs=[{min:0,msg:'💡 開始記錄你的帶薪如廁時光吧！'},{min:1,msg:'🌱 人生第一泡，前途無量！'},{min:30,msg:'✨ 還不錯嘛，繼續加油！'},{min:60,msg:'💪 一小時！廁所就是你的辦公室！'},{min:120,msg:'🔥 兩小時！你是真正的帶薪拉屎達人！'},{min:300,msg:'👑 五小時！老闆在為你的腸胃付薪水！'},{min:600,msg:'🏆 你是傳說！廁所應該給你發年終！'}];
+  let msg=msgs[0].msg;for(const m of msgs){if(totalMins>=m.min)msg=m.msg}
+  document.getElementById('fun-message').textContent=msg;
+  checkAchievements(totalMins,recordedDays,maxDay,earned);
+  calcHourly();
+}
 
-    for (let d = 1; d <= daysInMonth; d++) {
-      const key = dateKey(currentYear, currentMonth, d);
-      const dayEl = document.createElement('div');
-      const dow = new Date(currentYear, currentMonth, d).getDay();
-      const isToday = today.getFullYear()===currentYear && today.getMonth()===currentMonth && today.getDate()===d;
-      const isWeekend = dow===0 || dow===6;
-      const hasData = poopData[key] > 0;
+function checkAchievements(tm,rd,mx,e){
+  newlyUnlocked.clear();
+  ACH.forEach(a=>{const was=unlockedAchievements.has(a.id);if(a.check(tm,rd,mx,e)){if(!was)newlyUnlocked.add(a.id);unlockedAchievements.add(a.id)}});
+  newlyUnlocked.forEach(id=>{const a=ACH.find(x=>x.id===id);if(a)showToast('🏅 成就解鎖：'+a.icon+' '+a.name+'！')});
+  renderAchievements();
+}
 
-      dayEl.className = `cal-day${hasData?' has-data':''}${isToday?' today':''}${isWeekend?' weekend':''}`;
+function renderAchievements(){
+  const grid=document.getElementById('achievements-grid');grid.innerHTML='';
+  ACH.forEach(a=>{
+    const u=unlockedAchievements.has(a.id),n=newlyUnlocked.has(a.id);
+    const el=document.createElement('div');el.className='achievement '+(u?'unlocked':'locked');
+    el.innerHTML=(n?'<span class="badge-new">NEW</span>':'')+'<span class="achievement-icon">'+a.icon+'</span><div class="achievement-name">'+a.name+'</div><div class="achievement-desc">'+a.desc+'</div>';
+    grid.appendChild(el);
+  });
+}
 
-      const numDiv = document.createElement('div');
-      numDiv.className = 'cal-day-num';
-      numDiv.textContent = d;
-      dayEl.appendChild(numDiv);
+let toastTimer;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800)}
 
-      if (hasData) {
-        const emojiDiv = document.createElement('div');
-        emojiDiv.className = 'cal-day-emoji';
-        emojiDiv.textContent = '💩';
-        dayEl.appendChild(emojiDiv);
-        const minsDiv = document.createElement('div');
-        minsDiv.className = 'cal-day-mins';
-        minsDiv.textContent = poopData[key] + '分';
-        dayEl.appendChild(minsDiv);
-      }
-
-      dayEl.addEventListener('click', () => openModal(currentYear, currentMonth, d));
-      grid.appendChild(dayEl);
-    }
-  }
-
-  function dateKey(y, m, d) {
-    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-  }
-
-  function openModal(y, m, d) {
-    selectedDate = dateKey(y, m, d);
-    const weekday = WEEKDAYS[new Date(y,m,d).getDay()];
-    document.getElementById('modal-date-label').textContent = `${y} 年 ${m+1} 月 ${d} 日 （星期${weekday}）`;
-    const input = document.getElementById('modal-mins-input');
-    input.value = poopData[selectedDate] || '';
-    updateModalEarned(input.value);
-    input.oninput = () => updateModalEarned(input.value);
-    document.getElementById('modal').classList.add('open');
-    setTimeout(() => input.focus(), 200);
-  }
-
-  function updateModalEarned(val) {
-    const mins = parseFloat(val) || 0;
-    const rate = getHourlyRate();
-    const el = document.getElementById('modal-earned');
-    if (rate > 0 && mins > 0) {
-      const earned = (mins / 60 * rate).toFixed(1);
-      el.style.display = 'block';
-      el.textContent = `💰 這 ${mins} 分鐘賺了你 ${earned} 元！`;
-    } else {
-      el.style.display = 'none';
-    }
-  }
-
-  function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    selectedDate = null;
-  }
-
-  function closeModalOutside(e) {
-    if (e.target === document.getElementById('modal')) closeModal();
-  }
-
-  function saveDay() {
-    const mins = parseFloat(document.getElementById('modal-mins-input').value) || 0;
-    if (selectedDate) {
-      if (mins > 0) {
-        poopData[selectedDate] = mins;
-      } else {
-        delete poopData[selectedDate];
-      }
-    }
-    closeModal();
-    renderCalendar();
-    updateSummary();
-  }
-
-  function updateSummary() {
-    // only count current displayed month
-    const prefix = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-`;
-    let totalMins = 0;
-    let recordedDays = 0;
-    Object.keys(poopData).forEach(k => {
-      if (k.startsWith(prefix) && poopData[k] > 0) {
-        totalMins += poopData[k];
-        recordedDays++;
-      }
-    });
-
-    const rate = getHourlyRate();
-    const earned = totalMins / 60 * rate;
-    const totalWorkMins = getTotalWorkMinutes();
-    const pct = totalWorkMins > 0 ? Math.min((totalMins / totalWorkMins * 100), 100) : 0;
-
-    document.getElementById('total-mins-display').textContent = totalMins;
-    document.getElementById('total-hours-display').textContent = (totalMins/60).toFixed(1);
-    document.getElementById('total-earned-display').textContent = earned > 0 ? Math.round(earned) : 0;
-    document.getElementById('recorded-days-display').textContent = recordedDays;
-    document.getElementById('pct-label').textContent = pct.toFixed(1) + '%';
-    document.getElementById('bar-fill').style.width = pct + '%';
-
-    // fun message
-    const msgs = [
-      { min: 0, msg: '💡 開始記錄你的帶薪如廁時光吧！' },
-      { min: 1, msg: '🌱 人生第一泡，前途無量！' },
-      { min: 30, msg: '✨ 還不錯嘛，繼續加油！' },
-      { min: 60, msg: '💪 一小時！廁所就是你的辦公室！' },
-      { min: 120, msg: '🔥 兩小時！你是真正的帶薪拉屎達人！' },
-      { min: 300, msg: '👑 五小時！老闆在為你的腸胃付薪水！' },
-      { min: 600, msg: '🏆 你是傳說！廁所應該給你發年終！' },
-    ];
-    let msg = msgs[0].msg;
-    for (const m of msgs) {
-      if (totalMins >= m.min) msg = m.msg;
-    }
-    document.getElementById('fun-message').textContent = msg;
-
-    calcHourly();
-  }
-
-  // init
-  renderCalendar();
-  updateSummary();
+renderCalendar();renderAchievements();updateSummary();
 </script>
 </body>
 </html>
